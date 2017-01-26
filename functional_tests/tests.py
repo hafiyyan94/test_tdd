@@ -11,10 +11,11 @@ class NewVisitorCome(unittest.TestCase):
         ))
         #Wait for the web to load, total waiting time is 3 second
         self.browser.implicitly_wait(3)
+        
     def tearDown(self):
         self.browser.quit()
 
-    def test_new_visitor_come_and_check_title_of_website(self):
+    def test_new_visitor_come_and_type_multiple_to_do_lists(self):
         # Edith has heard about a cool new online to-do app. She goes
         # to check out its homepage
         self.browser.get('http://localhost:8000')
