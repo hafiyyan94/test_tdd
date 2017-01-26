@@ -1,9 +1,16 @@
-from django.shortcuts import render
+from django.shortcuts import redirect,render
 from django.http import HttpResponse
+from superlists.models import Item
 
 # Create your views here.
 
 def home_page(request):
-    return render(request, 'home.html', {
-        'new_item_text': request.POST.get('item_text', ''),
-    })
+
+    #If the page using POST Method
+    if request.method == 'POST':
+        Item.objects.create(text=request.POST['item_text'])
+        return redirect('/')
+
+    #If the page accessed without any parameter passed
+    items = Item.objects.all()
+    return render(request, 'home.html', {'items': items})
