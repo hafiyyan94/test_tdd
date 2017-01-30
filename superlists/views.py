@@ -6,11 +6,6 @@ from superlists.models import Item
 
 #First Page that loaded
 def home_page(request):
-
-    #If the page using POST Method
-    if request.method == 'POST':
-        Item.objects.create(text=request.POST['item_text'])
-        return redirect('/lists/the-only-list-in-the-world/')
     #If the page accessed without any parameter passed
     return render(request, 'home.html')
 
@@ -19,4 +14,9 @@ def home_page(request):
 def view_list(request):
     items = Item.objects.all()
     return render(request, 'list.html', {'items': items})
+
+#Page for submitting new to do lists
+def new_list(request):
+    Item.objects.create(text=request.POST['item_text'])
+    return redirect('/lists/the-only-list-in-the-world/')
 

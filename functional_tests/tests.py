@@ -1,13 +1,14 @@
 from selenium import webdriver
 from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
 from selenium.webdriver.common.keys import Keys
+from django.test import LiveServerTestCase
 import unittest
 import time
 
-class NewVisitorCome(unittest.TestCase):
+class NewVisitorCome(LiveServerTestCase):
     def setUp(self):
         self.browser = webdriver.Firefox(firefox_binary=FirefoxBinary(
-            firefox_path='B:\\Learn_TDD\\mozilla\\firefox.exe'
+            firefox_path='D:\\PyCharm_Project\\Mozilla_ESR\\firefox.exe'
         ))
         #Wait for the web to load, total waiting time is 3 second
         self.browser.implicitly_wait(6)
@@ -18,7 +19,8 @@ class NewVisitorCome(unittest.TestCase):
     def test_new_visitor_checking_title_and_header_web(self):
         # Edith has heard about a cool new online to-do app. She goes
         # to check out its homepage
-        self.browser.get('http://localhost:8000')
+        #self.browser.get('http://localhost:8000')
+        self.browser.get(self.live_server_url)
         # She notices the page title and header mention to-do lists
         self.assertIn('To-Do', self.browser.title)
         header_text = self.browser.find_element_by_tag_name('h1').text
@@ -30,10 +32,12 @@ class NewVisitorCome(unittest.TestCase):
         self.assertIn(row_text, [row.text for row in rows])
 
     def test_can_start_a_list_and_retrieve_it_later(self):
-        self.browser.get('http://localhost:8000')
+        #self.browser.get('http://localhost:8000')
+        self.browser.get(self.live_server_url)
         inputbox = self.browser.find_element_by_id('id_new_item')
         inputbox.send_keys('Buy peacock feathers')
         inputbox.send_keys(Keys.ENTER)
+        self.browser.implicitly_wait(6)
         self.check_for_row_in_list_table('1: Buy peacock feathers')
 
         # There is still a text box inviting her to add another item. She
@@ -42,15 +46,16 @@ class NewVisitorCome(unittest.TestCase):
         inputbox = self.browser.find_element_by_id('id_new_item')
         inputbox.send_keys('Use peacock feathers to make a fly')
         inputbox.send_keys(Keys.ENTER)
-
+        self.browser.implicitly_wait(6)
         # The page updates again, and now shows both items on her list
         self.check_for_row_in_list_table('1: Buy peacock feathers')
         self.check_for_row_in_list_table('2: Use peacock feathers to make a fly')
 
-    def test_multiple_use_accessing_the_page(self):
+    def test_multiple_user_accessing_the_page(self):
         # Edith has heard about a cool new online to-do app. She goes
         # to check out its homepage
-        self.browser.get('http://localhost:8000')
+        #self.browser.get('http://localhost:8000')
+        self.browser.get(self.live_server_url)
         inputbox = self.browser.find_element_by_id('id_new_item')
         inputbox.send_keys('Buy peacock feathers')
         inputbox.send_keys(Keys.ENTER)
@@ -71,7 +76,8 @@ class NewVisitorCome(unittest.TestCase):
 
         # Francis visits the home page.  There is no sign of Edith's
         # list
-        self.browser.get('http://localhost:8000')
+        #self.browser.get('http://localhost:8000')
+        self.browser.get(self.live_server_url)
         page_text = self.browser.find_element_by_tag_name('body').text
         self.assertNotIn('Buy peacock feathers', page_text)
         self.assertNotIn('make a fly', page_text)
