@@ -5,6 +5,7 @@ from django.test import LiveServerTestCase
 import unittest
 import time
 
+#Testing web logic, and page redirection
 class NewVisitorCome(LiveServerTestCase):
     def setUp(self):
         self.browser = webdriver.Firefox(firefox_binary=FirefoxBinary(
@@ -100,6 +101,42 @@ class NewVisitorCome(LiveServerTestCase):
         self.assertIn('Buy milk', page_text)
 
         # Satisfied, they both go back to sleep
+
+#Testing Layouot and UI
+class NewVisitorTest(LiveServerTestCase):
+    def setUp(self):
+        self.browser = webdriver.Firefox(firefox_binary=FirefoxBinary(
+            firefox_path='D:\\PyCharm_Project\\Mozilla_ESR\\firefox.exe'
+        ))
+        #Wait for the web to load, total waiting time is 3 second
+        self.browser.implicitly_wait(6)
+
+    def tearDown(self):
+        self.browser.quit()
+
+    #Test layout home page
+    def test_layout_and_styling(self):
+        # Edith goes to the home page
+        self.browser.get(self.live_server_url)
+        self.browser.set_window_size(1920, 1080)
+
+        # She notices the input box is nicely centered
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        self.assertAlmostEqual(
+            inputbox.location['x'] + inputbox.size['width'] / 2,
+            960,
+            delta=10
+        )
+        # She starts a new list and sees the input is nicely
+        # centered there too
+        inputbox.send_keys('testing\n')
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        self.assertAlmostEqual(
+            inputbox.location['x'] + inputbox.size['width'] / 2,
+            960,
+            delta=10
+        )
+
 
 if __name__ == '__main__':
     unittest.main(warnings='ignore')
