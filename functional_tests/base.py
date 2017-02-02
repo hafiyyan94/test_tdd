@@ -7,7 +7,7 @@ import sys
 from unittest import skip
 
 
-def FunctionalTest(StaticLiveServerTestCase):
+class FunctionalTest(StaticLiveServerTestCase):
     @classmethod
     def setUpClass(cls):
         for arg in sys.argv:
