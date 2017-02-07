@@ -1,6 +1,7 @@
 from django.shortcuts import redirect,render
 from django.http import HttpResponse
 from superlists.models import Item, List
+from superlists.forms import ItemForm
 from django.core.exceptions import ValidationError
 
 # Create your views here.
@@ -8,7 +9,7 @@ from django.core.exceptions import ValidationError
 #First Page that loaded
 def home_page(request):
     #If the page accessed without any parameter passed
-    return render(request, 'home.html')
+    return render(request, 'home.html', {'form': ItemForm()})
 
 
 #Page for submitting new to do lists
