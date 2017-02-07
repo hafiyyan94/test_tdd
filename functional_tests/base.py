@@ -35,5 +35,13 @@ class FunctionalTest(StaticLiveServerTestCase):
     def get_item_input_box(self):
         return self.browser.find_element_by_id('id_text')
 
+    def wait_for(self,next_to_do):
+        self.browser.implicitly_wait(3)
+        next_to_do
+
+    def wait_for_row_in_list_table(self,data):
+        self.browser.implicitly_wait(3)
+        self.check_for_row_in_list_table(data)
+
 if __name__ == '__main__':
     unittest.main(warnings='ignore')
