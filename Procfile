@@ -1,1 +1,1 @@
-web: web: gunicorn tdd_test.wsgi --log-file -
+web: gunicorn tdd_test.wsgi --log-file -
